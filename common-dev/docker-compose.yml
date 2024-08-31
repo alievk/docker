@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  ali_common_dev:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    container_name: ali_common_dev_container
+    runtime: nvidia
+    deploy:
+      resources:
+        limits:
+          cpus: '16'
+          memory: 64g
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=3 
+    ports:
+      - "2222:22"
+      - "8555:8555"
+    volumes:
+      - /home/alievk/sources:/home/user/sources
+      - /media/hdd/ali:/media/hdd/ali
