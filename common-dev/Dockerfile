@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     sudo \
     python3 \
     python3-pip \
+    curl \
     && mkdir /var/run/sshd
 
 # Create a non-root user with the same UID and GID as the host user
@@ -40,15 +41,38 @@ COPY jupyter_lab_config.py /home/user/.jupyter/
 
 # Create Trash directory and set permissions
 RUN mkdir -p /home/user/.local/share/Trash
-RUN chown -R user:user /home/user
+
+# Install NVM
+ENV NVM_DIR="/usr/local/nvm"
+ENV NODE_VERSION="18"
+RUN mkdir -p "$NVM_DIR" \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash \
+    && . "$NVM_DIR/nvm.sh" \
+    && nvm install $NODE_VERSION \
+    && NODE_ACTUAL_VERSION=$(ls -d $NVM_DIR/versions/node/v$NODE_VERSION.* | tail -n 1 | xargs basename) \
+    && ln -s $NVM_DIR/versions/node/$NODE_ACTUAL_VERSION/bin/node /usr/local/bin/node \
+    && ln -s $NVM_DIR/versions/node/$NODE_ACTUAL_VERSION/bin/npm /usr/local/bin/npm \
+    && ln -s $NVM_DIR/versions/node/$NODE_ACTUAL_VERSION/bin/npx /usr/local/bin/npx
+
+# Ensure npm global config and PATH are set for all users
+RUN echo 'export NVM_DIR="/usr/local/nvm"' >> /etc/bash.bashrc \
+    && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> /etc/bash.bashrc \
+    && echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> /etc/bash.bashrc \
+    && echo 'export NPM_CONFIG_PREFIX="$HOME/.npm-global"' >> /etc/bash.bashrc \
+    && echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> /etc/bash.bashrc \
+    && echo 'mkdir -p "$HOME/.npm-global"' >> /etc/bash.bashrc
 
 # Copy start script and make it executable for the new user
 COPY start.sh /root/start.sh
 RUN chmod +x /root/start.sh
 
+# Fix permissions
+RUN chown -R user:user /home/user
+
 # Expose necessary ports
 EXPOSE 22
-EXPOSE 8555
+EXPOSE 8500
+EXPOSE 8501
 
 # Start bash shell by default
 CMD ["/bin/bash", "/root/start.sh"]
