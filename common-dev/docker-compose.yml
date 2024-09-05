@@ -22,5 +22,6 @@ services:
       - "8500:8500"
       - "8501:8501"
     volumes:
-      - /home/alievk/sources:/home/user/sources
+      - ${HOME}/sources:/home/user/sources
+      - ${HOME}/.cursor-server:/home/user/.cursor-server
       - /media/hdd/ali:/media/hdd/ali
