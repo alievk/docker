@@ -62,6 +62,9 @@ RUN echo 'export NVM_DIR="/usr/local/nvm"' >> /etc/bash.bashrc \
     && echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> /etc/bash.bashrc \
     && echo 'mkdir -p "$HOME/.npm-global"' >> /etc/bash.bashrc
 
+# Add local bin to PATH
+RUN echo 'export PATH="$HOME/.local/bin:$PATH"' >> /etc/bash.bashrc
+
 # Copy start script and make it executable for the new user
 COPY start.sh /root/start.sh
 RUN chmod +x /root/start.sh
