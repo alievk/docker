@@ -9,6 +9,10 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     curl \
+    git \
+    vim \
+    htop \
+    tmux \
     && mkdir /var/run/sshd
 
 # Create a non-root user with the same UID and GID as the host user
