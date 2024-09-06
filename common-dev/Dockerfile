@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -6,8 +6,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     openssh-server \
     sudo \
-    python3 \
-    python3-pip \
     curl \
     git \
     vim \
@@ -37,6 +35,7 @@ COPY id_rsa.pub /home/user/.ssh/authorized_keys
 RUN chmod 700 /home/user/.ssh && chmod 600 /home/user/.ssh/authorized_keys
 
 # Install JupyterLab
+RUN apt-get install python3-pip -y
 RUN pip3 install jupyterlab
 
 # Set up Jupyter configuration for the new user
