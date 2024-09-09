@@ -10,6 +10,15 @@ I hate root files popping up here and there after working in a development Docke
 - Inherits Cursor settings
 
 Build & run
+
+- ssh: if you want to ssh into the container, put id_rsa.pub in this folder
+
 ```bash
 USER_ID=$(id -u) GROUP_ID=$(id -g) docker-compose up -d --build
+```
+
+ssh
+
+```bash
+ssh -i ~/.ssh/id_rsa user@remote_host -p 2222
 ```
