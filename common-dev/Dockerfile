@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     htop \
     tmux \
+    ffmpeg \
+    python3-pip \
     && mkdir /var/run/sshd
 
 # Create a non-root user with the same UID and GID as the host user
@@ -34,9 +36,11 @@ RUN mkdir /home/user/.ssh
 COPY id_rsa.pub /home/user/.ssh/authorized_keys
 RUN chmod 700 /home/user/.ssh && chmod 600 /home/user/.ssh/authorized_keys
 
-# Install JupyterLab
-RUN apt-get install python3-pip -y
-RUN pip3 install jupyterlab
+# Install essential Python packages
+RUN pip3 install \
+    jupyterlab \
+    torch \
+    numpy
 
 # Set up Jupyter configuration for the new user
 RUN mkdir -p /home/user/.jupyter
