@@ -13,8 +13,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '16'
-          memory: 64g
+          cpus: '8'
+          memory: 32g
     environment:
       - NVIDIA_VISIBLE_DEVICES=3 
     ports:
@@ -22,6 +22,7 @@ services:
       - "8500:8500"
       - "8501:8501"
     volumes:
+      - ${HOME}/.gitconfig:/home/user/.gitconfig:ro
       - ${HOME}/sources:/home/user/sources
       - ${HOME}/.cursor-server:/home/user/.cursor-server
       - /media/hdd/ali:/media/hdd/ali
