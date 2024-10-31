@@ -80,10 +80,5 @@ RUN chmod +x /root/start.sh
 # Fix permissions
 RUN chown -R user:user /home/user
 
-# Expose necessary ports
-EXPOSE 22
-EXPOSE 8500
-EXPOSE 8501
-
 # Start bash shell by default
 CMD ["/bin/bash", "/root/start.sh"]
