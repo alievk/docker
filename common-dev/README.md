@@ -22,3 +22,10 @@ ssh
 ```bash
 ssh -i ~/.ssh/id_rsa user@remote_host -p 2222
 ```
+
+Stop
+
+```bash
+cd docker_dir
+docker-compose stop
+```
