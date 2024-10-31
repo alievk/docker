@@ -20,7 +20,6 @@ services:
     ports:
       - "2222:22"
       - "8500:8500"
-      - "8501:8501"
     volumes:
       - ${HOME}/.gitconfig:/home/user/.gitconfig:ro
       - ${HOME}/sources:/home/user/sources
