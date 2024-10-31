@@ -74,11 +74,13 @@ RUN echo 'export NVM_DIR="/usr/local/nvm"' >> /etc/bash.bashrc \
 RUN echo 'export PATH="$HOME/.local/bin:$PATH"' >> /etc/bash.bashrc
 
 # Copy start script and make it executable for the new user
-COPY start.sh /root/start.sh
-RUN chmod +x /root/start.sh
+COPY start.sh /home/user/start.sh
 
 # Fix permissions
 RUN chown -R user:user /home/user
 
+USER user
+WORKDIR /home/user
+
 # Start bash shell by default
-CMD ["/bin/bash", "/root/start.sh"]
+CMD ["/bin/bash", "/home/user/start.sh"]
