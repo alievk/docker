@@ -39,9 +39,8 @@ RUN chmod 700 /home/user/.ssh && chmod 600 /home/user/.ssh/authorized_keys
 
 # Install essential Python packages
 RUN pip3 install \
-    jupyterlab \
-    torch \
-    numpy
+    jupyterlab==4.2.5 \
+    ipywidgets
 
 # Set up Jupyter configuration for the new user
 RUN mkdir -p /home/user/.jupyter
