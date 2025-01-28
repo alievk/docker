@@ -2,18 +2,18 @@ version: '3.8'
 
 networks:
   default:
-    name: voice-agent-network
+    name: alievk_common_dev_network
     driver: bridge
 
 services:
-  ali_common_dev:
+  alievk_common_dev:
     build: 
       context: .
       dockerfile: Dockerfile
       args:
         USER_ID: ${USER_ID}
         GROUP_ID: ${GROUP_ID}
-    container_name: ali_common_dev_container
+    container_name: alievk_common_dev_container
     runtime: nvidia
     deploy:
       resources:
